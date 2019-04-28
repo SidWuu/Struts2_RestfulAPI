@@ -1,7 +1,7 @@
-package com.myself.api.rest.portals.action;
+package com.myself.api.struts.rest.portals.action;
 
-import com.myself.api.rest.portals.service.PortalService;
-import com.myself.api.rest.portals.vo.Portal;
+import com.myself.api.struts.rest.portals.service.PortalService;
+import com.myself.api.struts.rest.portals.vo.Portal;
 import org.apache.struts2.rest.DefaultHttpHeaders;
 import org.apache.struts2.rest.HttpHeaders;
 
