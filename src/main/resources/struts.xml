@@ -27,12 +27,12 @@
     <constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
 
     <!-- 父类包 调度监听使用 -->
-    <package name="default-package" extends="struts-default, json-default" namespace="/">
+    <package name="default-package" namespace="/" extends="struts-default, json-default">
 
     </package>
 
-    <package name="rest-package" namespace="/rest" extends="rest-default">
-        <action name="portals/*" class="com.golden.api.rest.portals.action.PortalsController">
+    <package name="rest-package" namespace="/struts/rest" extends="rest-default">
+        <action name="portals/*" class="com.myself.api.struts.rest.portals.action.PortalsController">
             <result name="index">/WEB-INF/content/portals/portals-index.jsp</result>
             <result name="show">/WEB-INF/content/portals/portals-show.jsp</result>
             <result name="edit">/WEB-INF/content/portals/portals-edit.jsp</result>

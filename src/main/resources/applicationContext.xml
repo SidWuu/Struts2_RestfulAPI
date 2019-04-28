@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:ApplicationConfig.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding"><value>UTF-8</value></property>
+    </bean>
+
+    <bean id="baseTransactionProxy"
+          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+          abstract="true">
+        <property name="transactionAttributes">
+            <props>
+                <prop key="add*">PROPAGATION_REQUIRED</prop>
+                <prop key="batch*">PROPAGATION_REQUIRED</prop>
+                <prop key="create*">PROPAGATION_REQUIRED</prop>
+                <prop key="delete*">PROPAGATION_REQUIRED</prop>
+                <prop key="execute*">PROPAGATION_REQUIRED</prop>
+                <prop key="fatch*">PROPAGATION_REQUIRED</prop>
+                <prop key="insert*">PROPAGATION_REQUIRED</prop>
+                <prop key="remove*">PROPAGATION_REQUIRED</prop>
+                <prop key="save*">PROPAGATION_REQUIRED</prop>
+                <prop key="update*">PROPAGATION_REQUIRED</prop>
+                <prop key="*Log">PROPAGATION_REQUIRED</prop>
+                <prop key="check*">PROPAGATION_SUPPORTS,readOnly</prop>
+                <prop key="find*">PROPAGATION_SUPPORTS,readOnly</prop>
+                <prop key="get*">PROPAGATION_SUPPORTS,readOnly</prop>
+                <prop key="list*">PROPAGATION_SUPPORTS,readOnly</prop>
+                <prop key="query*">PROPAGATION_SUPPORTS,readOnly</prop>
+                <prop key="unique*">PROPAGATION_SUPPORTS,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- restful接口Service -->
+    <bean id="portalService" parent="baseTransactionProxy">
+        <property name="target">
+            <bean class="com.myself.api.struts.rest.portals.service.impl.PortalServiceImpl"/>
+        </property>
+    </bean>
+
+</beans>
