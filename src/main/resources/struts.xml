@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <!-- 指定Web应用的默认编码集 -->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!-- 系统是否自动加载修改后的struts.xml文件 -->
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <!-- 指定应用的默认处理后缀 -->
+    <constant name="struts.action.extension" value="do,xhtml,xml,json"/>
+    <!-- 指定应用的默认ObjectFactoryBean,默认spring -->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!-- 指定方法是否支持动态方法调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <!-- 指定是否通过JAR文件提供静态内容服务 -->
+    <constant name="struts.serve.static" value="true"/>
+
+    <!-- Overwrite Convention -->
+    <constant name="struts.rest.content.restrictToGET" value="false"/>
+    <constant name="struts.convention.action.suffix" value="Controller"/>
+    <constant name="struts.convention.action.mapAllMatches" value="true"/>
+    <constant name="struts.convention.default.parent.package" value="rest-default"/>
+    <constant name="struts.convention.package.locators" value="rest"/>
+    <constant name="struts.mapper.class" value="org.apache.struts2.dispatcher.mapper.PrefixBasedActionMapper"/>
+    <constant name="struts.mapper.prefixMapping" value="/rest:rest,:struts"/>
+    <constant name="struts.rest.namespace" value="/rest"/>
+    <constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
+
+    <!-- 父类包 调度监听使用 -->
+    <package name="default-package" extends="struts-default, json-default" namespace="/">
+
+    </package>
+
+    <package name="rest-package" namespace="/rest" extends="rest-default">
+        <action name="portals/*" class="com.golden.api.rest.portals.action.PortalsController">
+            <result name="index">/WEB-INF/content/portals/portals-index.jsp</result>
+            <result name="show">/WEB-INF/content/portals/portals-show.jsp</result>
+            <result name="edit">/WEB-INF/content/portals/portals-edit.jsp</result>
+            <result name="editNew">/WEB-INF/content/portals/portals-editNew.jsp</result>
+            <result name="deleteConfirm">/WEB-INF/content/portals/portals-deleteConfirm.jsp</result>
+        </action>
+    </package>
+
+</struts>
