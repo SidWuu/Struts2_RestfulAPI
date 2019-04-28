@@ -5,6 +5,6 @@
   目前两种方式都支持REST调用, 可以根据请求后缀返回xml或json格式的数据. 
 
 ## Struts2
-
+正在上传
 ## SpringMVC
 待上传
