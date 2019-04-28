@@ -11,7 +11,7 @@
 
     <properties>
         <spring.version>5.1.3.RELEASE</spring.version>
-        <strust2.version>2.3.32</strust2.version>
+        <strust2.version>2.3.35</strust2.version>
     </properties>
     <dependencies>
 
