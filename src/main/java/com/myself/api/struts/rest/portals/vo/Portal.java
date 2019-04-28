@@ -1,4 +1,4 @@
-package com.myself.api.rest.portals.vo;
+package com.myself.api.struts.rest.portals.vo;
 
 public class Portal {
     private Long id;

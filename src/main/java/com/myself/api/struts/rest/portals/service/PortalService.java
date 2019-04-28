@@ -1,6 +1,6 @@
-package com.myself.api.rest.portals.service;
+package com.myself.api.struts.rest.portals.service;
 
-import com.myself.api.rest.portals.vo.Portal;
+import com.myself.api.struts.rest.portals.vo.Portal;
 
 import java.util.List;
 
