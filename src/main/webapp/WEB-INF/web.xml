@@ -10,9 +10,11 @@
     <!-- 配置struts2 -->
     <filter>
         <filter-name>struts2</filter-name>
-        <filter-class>
-            org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
-        </filter-class>
+        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>struts-default.xml,struts-plugin.xml,classpath*:struts.xml</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>struts2</filter-name>
