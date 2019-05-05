@@ -7,6 +7,15 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    <!-- 接收_method, 转成PUT, DELETE -->
+    <filter>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
     <!-- 配置struts2 -->
     <filter>
         <filter-name>struts2</filter-name>
@@ -32,6 +41,22 @@
         <filter-name>rest-struts2</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <!-- 配置springMVC -->
+    <servlet>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:dispatch/dispatcher-servlet.xml</param-value>
+        </init-param>
+        <!-- 是否在启动时加载这个Servlet -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DispatcherServlet</servlet-name>
+        <!-- 拦截匹配规则-->
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
     <!-- 配置spring -->
     <context-param>
         <param-name>contextConfigLocation</param-name>

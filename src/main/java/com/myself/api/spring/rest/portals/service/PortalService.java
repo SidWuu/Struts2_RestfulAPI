@@ -1,4 +1,4 @@
-package com.myself.api.struts.rest.portals.service;
+package com.myself.api.spring.rest.portals.service;
 
 import com.myself.api.common.vo.Portal;
 

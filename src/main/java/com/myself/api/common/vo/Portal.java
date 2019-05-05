@@ -1,5 +1,9 @@
-package com.myself.api.struts.rest.portals.vo;
+package com.myself.api.common.vo;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "portal")
 public class Portal {
     private Long id;
     private String code;
@@ -17,6 +21,7 @@ public class Portal {
         return id;
     }
 
+    @XmlElement
     public void setId(Long id) {
         this.id = id;
     }
@@ -25,6 +30,7 @@ public class Portal {
         return code;
     }
 
+    @XmlElement
     public void setCode(String code) {
         this.code = code;
     }
@@ -33,6 +39,7 @@ public class Portal {
         return name;
     }
 
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }

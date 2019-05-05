@@ -1,7 +1,7 @@
-package com.myself.api.struts.rest.portals.service.impl;
+package com.myself.api.spring.rest.portals.service.impl;
 
 import com.myself.api.common.vo.Portal;
-import com.myself.api.struts.rest.portals.service.PortalService;
+import com.myself.api.spring.rest.portals.service.PortalService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

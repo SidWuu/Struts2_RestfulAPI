@@ -1,57 +1,66 @@
-package com.myself.api.struts.rest.portals.action;
+package com.myself.api.spring.rest.portals.action;
 
 import com.myself.api.common.vo.Portal;
-import com.myself.api.struts.rest.portals.service.PortalService;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.rest.DefaultHttpHeaders;
-import org.apache.struts2.rest.HttpHeaders;
+import com.myself.api.spring.rest.portals.service.PortalService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class PortalsController extends ActionSupport implements ModelDriven<Object> {
+@Controller
+@RequestMapping("/sso/*")
+public class PortalsController {
 
+    @Autowired
+    private PortalService portalService;
     private Long id;
     private Portal bean;
     private List<Portal> list;
-    private PortalService portalService;
-
     /**
      * GET
-     * /struts/rest/portals/1.do
+     * /rest/sso/portals/1
      * @return
      */
-    public HttpHeaders show() {
+    @RequestMapping(value = "/portals/{id}", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    @ResponseBody
+    public Portal show(@PathVariable("id") Long id) {
         try {
             if (null != id) {
                 setBean(portalService.get(id));
+                System.out.println("查看");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new DefaultHttpHeaders("show");
+        return bean;
     }
 
     /**
      * GET
-     * /struts/rest/portals.do
+     * /rest/sso/portals
      * @return
      */
-    public HttpHeaders index() {
+    @RequestMapping(value = "/portals", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    @ResponseBody
+    public List index() {
         try {
             setList(portalService.query());
+            System.out.println("查询");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new DefaultHttpHeaders("index").disableCaching();
+        return list;
     }
 
     /**
      * GET
-     * /strust/rest/portals/1/edit.do
+     * /rest/portals/1/edit.do
      * @return
      */
     public String edit() {
@@ -99,7 +108,7 @@ public class PortalsController extends ActionSupport implements ModelDriven<Obje
      * /rest/portals/1.do?_method="DELETE"
      * @return
      */
-    public HttpHeaders destroy() {
+    public List destroy() {
         try {
             portalService.delete(id);
         } catch (Exception e) {
@@ -113,11 +122,9 @@ public class PortalsController extends ActionSupport implements ModelDriven<Obje
      * /rest/portals.do
      * @return
      */
-    public HttpHeaders create() {
+    public String create(HttpServletRequest request, HttpServletResponse response) {
         try {
             portalService.save(bean);
-            HttpServletResponse response = ServletActionContext.getResponse();
-            HttpServletRequest request = ServletActionContext.getRequest();
             String accept = request.getHeader("Accept");
             if (accept.contains("text/html")) { // 页面视图过来的
                 response.sendRedirect("portals/");
@@ -137,7 +144,7 @@ public class PortalsController extends ActionSupport implements ModelDriven<Obje
      * /rest/portals/1.do?_method="PUT"
      * @return
      */
-    public HttpHeaders update() {
+    public List update() {
         try {
             portalService.update(bean);
         } catch (Exception e) {
@@ -168,14 +175,5 @@ public class PortalsController extends ActionSupport implements ModelDriven<Obje
 
     public void setList(List<Portal> list) {
         this.list = list;
-    }
-
-    public void setPortalService(PortalService portalService) {
-        this.portalService = portalService;
-    }
-
-    @Override
-    public Object getModel() {
-        return null != list ? list : bean;
     }
 }
