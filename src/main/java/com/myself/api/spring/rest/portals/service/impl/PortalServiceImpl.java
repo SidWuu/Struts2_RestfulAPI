@@ -2,12 +2,14 @@ package com.myself.api.spring.rest.portals.service.impl;
 
 import com.myself.api.common.vo.Portal;
 import com.myself.api.spring.rest.portals.service.PortalService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service("portalService")
 public class PortalServiceImpl implements PortalService {
 
     private static Map<Long, Portal> portals = new HashMap<>();
