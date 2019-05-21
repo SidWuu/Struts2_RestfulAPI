@@ -1,6 +1,7 @@
 package com.myself.api.spring.rest.portals.action;
 
 import com.myself.api.common.vo.Portal;
+import com.myself.api.common.vo.PortalList;
 import com.myself.api.spring.rest.portals.service.PortalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class PortalsController {
     private PortalService portalService;
     private Long id;
     private Portal bean;
-    private List<Portal> list;
+    private PortalList list;
     /**
      * GET
      * /rest/sso/portals/1
@@ -48,7 +49,7 @@ public class PortalsController {
      */
     @RequestMapping(value = "/portals", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
     @ResponseBody
-    public List index() {
+    public PortalList index() {
         try {
             setList(portalService.query());
             System.out.println("查询");
@@ -59,56 +60,11 @@ public class PortalsController {
     }
 
     /**
-     * GET
-     * /rest/portals/1/edit.do
-     * @return
-     */
-    public String edit() {
-        try {
-            if (null != id) {
-                setBean(portalService.get(id));
-                System.out.println("修改");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "edit";
-    }
-
-    /**
-     * GET
-     * /rest/portals/new.do
-     * @return
-     */
-    public String editNew() {
-        try {
-            setBean(new Portal());
-            System.out.println("新单");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "editNew";
-    }
-
-    /**
-     * GET
-     * /rest/portals/1/deleteConfirm.do
-     * @return
-     */
-    public String deleteConfirm() {
-        if (null != id) {
-            setBean(portalService.get(id));
-            System.out.println("删除确认");
-        }
-        return "deleteConfirm";
-    }
-
-    /**
      * DELETE
      * /rest/portals/1.do?_method="DELETE"
      * @return
      */
-    public List destroy() {
+    public PortalList destroy() {
         try {
             portalService.delete(id);
         } catch (Exception e) {
@@ -144,7 +100,7 @@ public class PortalsController {
      * /rest/portals/1.do?_method="PUT"
      * @return
      */
-    public List update() {
+    public PortalList update() {
         try {
             portalService.update(bean);
         } catch (Exception e) {
@@ -169,11 +125,11 @@ public class PortalsController {
         this.bean = bean;
     }
 
-    public List<Portal> getList() {
+    public PortalList getList() {
         return list;
     }
 
-    public void setList(List<Portal> list) {
+    public void setList(PortalList list) {
         this.list = list;
     }
 }

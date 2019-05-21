@@ -1,11 +1,10 @@
 package com.myself.api.spring.rest.portals.service;
 
 import com.myself.api.common.vo.Portal;
-
-import java.util.List;
+import com.myself.api.common.vo.PortalList;
 
 public interface PortalService {
-    public List<Portal> query();
+    public PortalList query();
 
     public Portal get(Long id);
 

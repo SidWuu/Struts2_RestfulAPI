@@ -1,6 +1,7 @@
 package com.myself.api.spring.rest.portals.service.impl;
 
 import com.myself.api.common.vo.Portal;
+import com.myself.api.common.vo.PortalList;
 import com.myself.api.spring.rest.portals.service.PortalService;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,8 @@ public class PortalServiceImpl implements PortalService {
     private static long nextId = 5;
 
     @Override
-    public List<Portal> query() {
-        return new ArrayList<Portal>(portals.values());
+    public PortalList query() {
+        return new PortalList(new ArrayList<>(portals.values()));
     }
 
     @Override
