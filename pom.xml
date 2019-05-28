@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <spring.version>5.1.3.RELEASE</spring.version>
+        <spring.version>4.1.7.RELEASE</spring.version>
         <strust2.version>2.3.35</strust2.version>
     </properties>
     <dependencies>

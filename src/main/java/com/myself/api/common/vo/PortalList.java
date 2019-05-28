@@ -7,10 +7,12 @@ import java.util.List;
 /**
  * 要以bean返回xml格式的list, 否则浏览器报406, 暂不知道原因
  */
-@XmlRootElement
+@XmlRootElement(name = "portals")
 public class PortalList {
 
     private List<Portal> list;
+
+    public PortalList() {}
 
     public PortalList(List<Portal> list) {
         this.list = list;

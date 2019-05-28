@@ -11,7 +11,7 @@
                 <value>classpath:ApplicationConfig.properties</value>
             </list>
         </property>
-        <property name="fileEncoding"><value>UTF-8</value></property>
+        <property name="fileEncoding" value="UTF-8"/>
     </bean>
 
     <bean id="baseTransactionProxy"

@@ -12,33 +12,22 @@
     <!-- 定义支持注解的HanlderMapping,用于分发请求 -->
     <mvc:annotation-driven>
         <mvc:message-converters>
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+            <bean id="mappingJacksonHttpMessageConverter"
+                  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
-                        <value>text/plain;charset=UTF-8</value>
                         <value>text/html;charset=UTF-8</value>
-                    </list>
-                </property>
-            </bean>
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>application/json; charset=UTF-8</value>
-                        <value>application/x-www-form-urlencoded; charset=UTF-8</value>
-                    </list>
-                </property>
-            </bean>
-            <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter">
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>application/xml; charset=UTF-8</value>
-                        <value>application/x-www-form-urlencoded; charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                        <value>application/xml;charset=UTF-8</value>
                     </list>
                 </property>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
     <!-- 设置使用注解的类所在的jar包 -->
+    <context:component-scan base-package="com.myself.api.common.vo"/>
+
     <context:component-scan base-package="com.myself.api.spring.rest.**.action"/>
     <context:component-scan base-package="com.myself.api.spring.rest.**.service"/>
     <context:component-scan base-package="com.myself.api.spring.rest.**.dao"/>

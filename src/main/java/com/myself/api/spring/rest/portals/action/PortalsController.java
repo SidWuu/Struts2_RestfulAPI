@@ -1,18 +1,14 @@
 package com.myself.api.spring.rest.portals.action;
 
+import com.myself.api.common.Constants;
 import com.myself.api.common.vo.Portal;
 import com.myself.api.common.vo.PortalList;
 import com.myself.api.spring.rest.portals.service.PortalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/sso/*")
@@ -20,116 +16,116 @@ public class PortalsController {
 
     @Autowired
     private PortalService portalService;
-    private Long id;
-    private Portal bean;
-    private PortalList list;
+
     /**
      * GET
-     * /rest/sso/portals/1
+     * spring/rest/sso/portals
      * @return
      */
-    @RequestMapping(value = "/portals/{id}", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
+    @RequestMapping(value = "/portals", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseBody
-    public Portal show(@PathVariable("id") Long id) {
+    public ModelMap index() {
+        ModelMap modelMap = new ModelMap();
+        try {
+            PortalList list = portalService.query();
+            System.out.println("查询");
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_OK);
+            modelMap.addAttribute("list", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_ERROR);
+            modelMap.addAttribute(Constants.RETURN_MSG, e.getMessage());
+        }
+        return modelMap;
+    }
+
+    /**
+     * GET
+     * spring/rest/sso/portals/1
+     * @return
+     */
+    @RequestMapping(value = "/portals/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ModelMap show(@PathVariable("id") Long id) {
+        ModelMap modelMap = new ModelMap();
         try {
             if (null != id) {
-                setBean(portalService.get(id));
+                Portal portal = portalService.get(id);
                 System.out.println("查看");
+                modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_OK);
+                modelMap.addAttribute("bean", portal);
+            } else {
+                modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_WARN);
+                modelMap.addAttribute(Constants.RETURN_MSG, "ID为空");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_ERROR);
+            modelMap.addAttribute(Constants.RETURN_MSG, e.getMessage());
         }
-        return bean;
-    }
-
-    /**
-     * GET
-     * /rest/sso/portals
-     * @return
-     */
-    @RequestMapping(value = "/portals", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
-    @ResponseBody
-    public PortalList index() {
-        try {
-            setList(portalService.query());
-            System.out.println("查询");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    /**
-     * DELETE
-     * /rest/portals/1.do?_method="DELETE"
-     * @return
-     */
-    public PortalList destroy() {
-        try {
-            portalService.delete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return index();
+        return modelMap;
     }
 
     /**
      * POST
-     * /rest/portals.do
+     * spring/rest/sso/portals
      * @return
      */
-    public String create(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/portals", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ModelMap create(@RequestParam Portal bean) {
+        ModelMap modelMap = new ModelMap();
         try {
             portalService.save(bean);
-            String accept = request.getHeader("Accept");
-            if (accept.contains("text/html")) { // 页面视图过来的
-                response.sendRedirect("portals/");
-            } else if (accept.contains("text/xml")) { // 发送xml过来的
-                response.sendRedirect("portals/" + bean.getId() + ".xml");
-            } else { // 其它的返回json视图
-                response.sendRedirect("portals/" + bean.getId() + ".json");
-            }
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_OK);
+            modelMap.addAttribute(Constants.RETURN_MSG, "新增成功");
         }catch (Exception e) {
             e.printStackTrace();
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_ERROR);
+            modelMap.addAttribute(Constants.RETURN_MSG, e.getMessage());
         }
-        return null;
+        return modelMap;
     }
 
     /**
      * PUT
-     * /rest/portals/1.do?_method="PUT"
+     * spring/rest/sso/portals
      * @return
      */
-    public PortalList update() {
+    @RequestMapping(value = "/portals", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ModelMap update(@RequestParam Portal bean) {
+        ModelMap modelMap = new ModelMap();
         try {
             portalService.update(bean);
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_OK);
+            modelMap.addAttribute(Constants.RETURN_MSG, "修改成功");
         } catch (Exception e) {
             e.printStackTrace();
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_ERROR);
+            modelMap.addAttribute(Constants.RETURN_MSG, e.getMessage());
         }
-        return index();
+        return modelMap;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Portal getBean() {
-        return bean;
-    }
-
-    public void setBean(Portal bean) {
-        this.bean = bean;
-    }
-
-    public PortalList getList() {
-        return list;
-    }
-
-    public void setList(PortalList list) {
-        this.list = list;
+    /**
+     * DELETE
+     * spring/rest/portals/1
+     * @return
+     */
+    @RequestMapping(value = "/portals/{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public ModelMap destroy(@PathVariable("id") Long id) {
+        ModelMap modelMap = new ModelMap();
+        try {
+            portalService.delete(id);
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_OK);
+            modelMap.addAttribute(Constants.RETURN_MSG, "删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            modelMap.addAttribute(Constants.RETURN_STATUS, Constants.RETURN_STATUS_ERROR);
+            modelMap.addAttribute(Constants.RETURN_MSG, e.getMessage());
+        }
+        return modelMap;
     }
 }
